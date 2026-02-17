@@ -3,8 +3,9 @@ import numpy as np
 from PIL import Image
 from transformers import AutoProcessor, BlipForConditionalGeneration
 
-processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+from config import IMAGE_CAPTION_MODEL
+processor = AutoProcessor.from_pretrained(IMAGE_CAPTION_MODEL)
+model = BlipForConditionalGeneration.from_pretrained(IMAGE_CAPTION_MODEL)
 
 def caption_image(input_image: np.ndarray):
     # Convert numpy array to PIL Image and convert to RGB

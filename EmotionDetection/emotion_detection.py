@@ -1,8 +1,13 @@
+
+import sys
+import os
 from transformers import pipeline
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import EMOTION_MODEL
 
 emotion_pipeline = pipeline(
     "text-classification",
-    model="j-hartmann/emotion-english-distilroberta-base",
+    model=EMOTION_MODEL,
     top_k=None  # Return all scores instead of return_all_scores=True
 )
 

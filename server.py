@@ -3,8 +3,10 @@ Flask application to expose the Emotion Detector service.
 Provides a web endpoint to analyze text emotions and return the dominant emotion.
 """
 
+
 from flask import Flask, render_template, request, jsonify
 from EmotionDetection.emotion_detection import emotion_detector
+from config import HOST, PORT
 
 app = Flask("Emotion Detector")
 
@@ -35,4 +37,4 @@ def render_index_page():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host=HOST, port=PORT)

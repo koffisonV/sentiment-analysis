@@ -1,6 +1,8 @@
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-model_name = "facebook/blenderbot-400M-distill"
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from config import CHATBOT_MODEL
+
+model_name = CHATBOT_MODEL
 
 # Load model (download on first run and reference local installation)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
