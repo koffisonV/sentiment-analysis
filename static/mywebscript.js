@@ -1,61 +1,65 @@
-let RunSentimentAnalysis = () => {
-  textToAnalyze = document.getElementById("textToAnalyze").value;
+const EMOTION_COLORS = {
+    anger: 'bar-anger',
+    disgust: 'bar-disgust',
+    fear: 'bar-fear',
+    joy: 'bar-joy',
+    sadness: 'bar-sadness',
+};
 
-  let xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      // Parse the JSON response
-      let response = JSON.parse(xhttp.responseText);
+function buildEmotionRow(emotion, score) {
+    const colorClass = EMOTION_COLORS[emotion] ?? '';
+    return `
+        <div class="emotion-row">
+            <span class="emotion-name">${emotion}</span>
+            <div class="emotion-bar-track">
+                <div class="emotion-bar-fill ${colorClass}" style="width: ${score}%"></div>
+            </div>
+            <span class="emotion-score">${score}%</span>
+        </div>
+    `;
+}
 
-      // Create pretty HTML output
-      let formattedResponse = `
-                <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
-                    <h4 style="margin-bottom: 15px;">Emotion Scores:</h4>
-                    <div style="margin-bottom: 10px;">
-                        <span style="display: inline-block; width: 100px;">😠 Anger:</span>
-                        <strong>${response.anger}%</strong>
-                        <div class="progress" style="height: 10px; margin-top: 5px;">
-                            <div class="progress-bar bg-danger" style="width: ${response.anger}%"></div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <span style="display: inline-block; width: 100px;">🤢 Disgust:</span>
-                        <strong>${response.disgust}%</strong>
-                        <div class="progress" style="height: 10px; margin-top: 5px;">
-                            <div class="progress-bar bg-warning" style="width: ${response.disgust}%"></div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <span style="display: inline-block; width: 100px;">😨 Fear:</span>
-                        <strong>${response.fear}%</strong>
-                        <div class="progress" style="height: 10px; margin-top: 5px;">
-                            <div class="progress-bar bg-secondary" style="width: ${response.fear}%"></div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <span style="display: inline-block; width: 100px;">😊 Joy:</span>
-                        <strong>${response.joy}%</strong>
-                        <div class="progress" style="height: 10px; margin-top: 5px;">
-                            <div class="progress-bar bg-success" style="width: ${response.joy}%"></div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <span style="display: inline-block; width: 100px;">😢 Sadness:</span>
-                        <strong>${response.sadness}%</strong>
-                        <div class="progress" style="height: 10px; margin-top: 5px;">
-                            <div class="progress-bar bg-info" style="width: ${response.sadness}%"></div>
-                        </div>
-                    </div>
-                    <hr style="margin: 20px 0;">
-                    <div style="text-align: center; font-size: 1.3em;">
-                        <p>Dominant Emotion: <span class="badge badge-primary" style="font-size: 1.1em;">${response.dominant_emotion.toUpperCase()}</span></p>
-                    </div>
+function RunSentimentAnalysis() {
+    const textToAnalyze = document.getElementById('textToAnalyze').value.trim();
+
+    if (!textToAnalyze) {
+        document.getElementById('system_response').innerHTML =
+            '<p class="error-state">Please enter some text before analyzing.</p>';
+        return;
+    }
+
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState !== 4) return;
+
+        if (this.status === 200) {
+            const response = JSON.parse(this.responseText);
+            const emotions = ['anger', 'disgust', 'fear', 'joy', 'sadness'];
+
+            const rows = emotions
+                .filter(e => response[e] !== undefined)
+                .map(e => buildEmotionRow(e, response[e]))
+                .join('');
+
+            document.getElementById('system_response').innerHTML = `
+                ${rows}
+                <div class="dominant-section">
+                    <div class="dominant-label">Dominant emotion</div>
+                    <span class="dominant-badge">${response.dominant_emotion}</span>
                 </div>
             `;
+        } else {
+            let message = 'An error occurred. Please try again.';
+            try {
+                const err = JSON.parse(this.responseText);
+                if (err.error) message = err.error;
+            } catch (_) { }
+            document.getElementById('system_response').innerHTML =
+                `<p class="error-state">${message}</p>`;
+        }
+    };
 
-      document.getElementById("system_response").innerHTML = formattedResponse;
-    }
-  };
-  xhttp.open("GET", "emotionDetector?textToAnalyze=" + textToAnalyze, true);
-  xhttp.send();
-};
+    xhttp.open('GET', 'emotionDetector?textToAnalyze=' + encodeURIComponent(textToAnalyze), true);
+    xhttp.send();
+}

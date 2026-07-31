@@ -1,0 +1,185 @@
+body {
+    background-color: #f4f5f7;
+    color: #343a40;
+    min-height: 100vh;
+}
+
+.app-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.app-header {
+    margin-bottom: 32px;
+}
+
+.app-header h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin: 0;
+}
+
+.app-header p {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin: 4px 0 0;
+}
+
+.panel {
+    background: #ffffff;
+    border: 1px solid #e2e5e9;
+    border-radius: 8px;
+    padding: 28px;
+    height: 100%;
+}
+
+.panel-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #6c757d;
+    margin-bottom: 12px;
+}
+
+#textToAnalyze {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 0.95rem;
+    resize: vertical;
+    min-height: 180px;
+    width: 100%;
+    color: #343a40;
+    background: #fafbfc;
+    transition: border-color 0.15s;
+}
+
+#textToAnalyze:focus {
+    outline: none;
+    border-color: #6c757d;
+    background: #fff;
+}
+
+.btn-analyze {
+    margin-top: 14px;
+    padding: 9px 24px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: #343a40;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.btn-analyze:hover {
+    background-color: #23272b;
+    color: #fff;
+}
+
+.results-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 200px;
+    color: #adb5bd;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+/* Injected by JS */
+.emotion-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.emotion-name {
+    width: 80px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #6c757d;
+    flex-shrink: 0;
+}
+
+.emotion-bar-track {
+    flex: 1;
+    background: #f0f1f3;
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.emotion-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+.emotion-score {
+    width: 44px;
+    text-align: right;
+    font-size: 0.8rem;
+    color: #495057;
+    flex-shrink: 0;
+}
+
+.bar-anger {
+    background-color: #e05c5c;
+}
+
+.bar-disgust {
+    background-color: #a0845c;
+}
+
+.bar-fear {
+    background-color: #7c6caf;
+}
+
+.bar-joy {
+    background-color: #4caf7d;
+}
+
+.bar-sadness {
+    background-color: #5c8ae0;
+}
+
+.dominant-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: #343a40;
+    color: #fff;
+}
+
+.dominant-section {
+    border-top: 1px solid #e9ecef;
+    padding-top: 18px;
+    margin-top: 6px;
+}
+
+.dominant-label {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-bottom: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.error-state {
+    color: #c0392b;
+    font-size: 0.875rem;
+}
